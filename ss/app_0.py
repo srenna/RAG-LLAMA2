@@ -25,7 +25,6 @@ DEVICE = "cuda:0" if torch.cuda.is_available() else "cpu"
 from PyPDF2 import PdfReader
 from langchain.docstore.document import Document
 
-# Define a function to generate a prompt template
 DEFAULT_SYSTEM_PROMPT = """
 You are a consultant from Deloitte. Answer the questions with details related to the contents found in the text files.""".strip()
 
@@ -60,7 +59,7 @@ st.subheader("Point of View Hub")
 #Implementation of a horizontal navigation bar
 selected = option_menu(
     menu_title=None,
-    options=["POV Data", "POV Chatbot"],
+    options=["Home", "POV Chatbot"],
     icons=["house", "robot"],
     orientation="horizontal",
     styles={
@@ -170,82 +169,79 @@ def pdf_upload(pdf):
     return result
 
 def main():
-    #result = None
-    if 'result' not in st.session_state:
-        st.session_state['result'] = None #or whatever default
-    
-    result = st.session_state['result']
+    results = None
 
     if 'input_method' not in st.session_state:
         st.session_state.input_method = None
 
-    if selected == "POV Data":
-        # URL BUTTON
-        # add text
-        st.write("Welcome to the Deloitte Point of View (POV) Hub. Here you can access the latest insights and trends from Deloitte. You can also chat with our chatbot to get answers to your POV questions. To get started, provide information below and toggle to the chat.")
-        
-        url = st.text_input("Enter URL to scrape:", "")
+    # VIVEK I DIDN'T FIGURE THIS OUT
+    #Code for the home page
+    if selected == "Home":
+        st.title(f"{selected}")
 
-        # Create a button to trigger scraping
-        if st.button("Scrape URL"):
-            if url:
-                result = scrape_text_from_url(url)
-                if result:
-                    st.success("Text scraped successfully from URL!")
-                    st.session_state.input_method = 'url'
-                    # st.write(result)
-                else:
-                    st.error("Scraping failed. Please check the URL.")
-            else:
-                st.warning("Please enter a URL to scrape.")
-
-        # PDF BUTTON
-        # Create a button to trigger PDF text scraping
-        pdf = st.file_uploader("Upload your PDF")
-        if pdf:
-            result = pdf_upload(pdf)
-            if result:
-                st.success("Text scraped successfully from PDF!")
-                st.session_state.input_method = 'pdf'
-                st.session_state['result'] = result
-                # st.write(result)
-                
-            else:
-                st.error("Scraping failed. Please check the PDF.")
-        # Check if any input is activated
-        # else:
-        #     st.warning("Please enter a URL or upload a PDF to scrape.")
-        
-        # Check if any input is activated
-        if 'input_activated' not in st.session_state:
-            st.session_state.input_activated = False
-
-        if pdf or url:
-            st.session_state.input_activated = True
-
-        if "messages" not in st.session_state:
-                st.session_state["messages"] = [
-                {"role": "assistant", "content": "Hi, I'm a chatbot trained for Deloitte. Enter your query below to learn with me."}
-            ]
-                
+    #All of the code to use the chatbot is in here 
     if selected == "POV Chatbot":
-        
-        for msg in st.session_state.messages:
-            st.chat_message(msg["role"]).write(msg["content"])
-            
-        if user_input := st.chat_input(placeholder="What's the economic outlook for 2024?"):
-            st.session_state.messages.append({"role": "user", "content": user_input})
-            st.chat_message("user").write(user_input)
+        st.title(f"{selected}")
 
-            if st.session_state.input_method == 'url' or st.session_state.input_method == 'pdf':
-                response = qa_llm(result, user_input)
+    # URL BUTTON
+    url = st.text_input("Enter URL to scrape:", "")
 
-            with st.chat_message("assistant"):
-                st.session_state.messages.append({"role": "assistant", "content": response['result']})
-                st.write(response['result'])
-
+    # Create a button to trigger scraping
+    if st.button("Scrape URL"):
+        if url:
+            result = scrape_text_from_url(url)
+            if result:
+                st.success("Text scraped successfully from URL!")
+                st.session_state.input_method = 'url'
+                # st.write(result)
+            else:
+                st.error("Scraping failed. Please check the URL.")
         else:
-            user_input = None  # Initialize the prompt variable
+            st.warning("Please enter a URL to scrape.")
+
+    # PDF BUTTON
+    # Create a button to trigger PDF text scraping
+    pdf = st.file_uploader("Upload your PDF")
+    if pdf:
+        result = pdf_upload(pdf)
+        if result:
+            st.success("Text scraped successfully from PDF!")
+            st.session_state.input_method = 'pdf'
+            # st.write(result)
+        else:
+            st.error("Scraping failed. Please check the PDF.")
+    # Check if any input is activated
+    # else:
+    #     st.warning("Please enter a URL or upload a PDF to scrape.")
+    
+    # Check if any input is activated
+    if 'input_activated' not in st.session_state:
+        st.session_state.input_activated = False
+
+    if pdf or url:
+        st.session_state.input_activated = True
+
+    if "messages" not in st.session_state:
+        st.session_state["messages"] = [
+        {"role": "assistant", "content": "Hi, I'm a chatbot trained for Deloitte. Enter your query below to learn with me."}
+    ]
+      
+    for msg in st.session_state.messages:
+        st.chat_message(msg["role"]).write(msg["content"])
+        
+    if user_input := st.chat_input(placeholder="What's the economic outlook for 2024?"):
+        st.session_state.messages.append({"role": "user", "content": user_input})
+        st.chat_message("user").write(user_input)
+
+        if st.session_state.input_method == 'url' or st.session_state.input_method == 'pdf':
+            response = qa_llm(result, user_input)
+
+        with st.chat_message("assistant"):
+            st.session_state.messages.append({"role": "assistant", "content": response})
+            st.write(response['result'])
+
+    else:
+        user_input = None  # Initialize the prompt variable
 
 if __name__ == '__main__':
     main()

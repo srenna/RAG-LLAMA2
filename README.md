@@ -1,7 +1,7 @@
 # Retrieval-Augmented Generation with LLAMA2 
 
 This Streamlit app called "Point of View Hub" allows users to either scrape text from a URL or upload a PDF. It then provides a chatbot interface where users can ask questions related to the scraped content, and the chatbot uses a language model to generate responses based on the provided text.
-It used the RAG (Retrieval-Augmented Generation) model which blends retrieval-based and generation-based approaches in natural language processing. It employs a retrieval component to identify relevant documents from a corpus based on the input query, then utilizes a generation component to produce the final answer. This integration allows RAG models to leverage pre-existing knowledge effectively, resulting in accurate and informative responses across a wide range of queries. 
+It uses the RAG (Retrieval-Augmented Generation) model which blends retrieval-based and generation-based approaches in natural language processing. It employs a retrieval component to identify relevant documents from a corpus based on the input query, then utilizes a generation component to produce the final answer. This integration allows RAG models to leverage pre-existing knowledge effectively, resulting in accurate and informative responses across a wide range of queries. 
 
 The app integrates several technical components:
 

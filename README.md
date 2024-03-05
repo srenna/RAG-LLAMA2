@@ -1,7 +1,7 @@
 # Retrieval-Augmented Generation with LLAMA2 
 
 This Streamlit app called "Point of View Hub" allows users to either scrape text from a URL or upload a PDF. It then provides a chatbot interface where users can ask questions related to the scraped content, and the chatbot uses a language model to generate responses based on the provided text.
-The RAG (Retrieval-Augmented Generation) model blends retrieval-based and generation-based approaches in natural language processing. It employs a retrieval component to identify relevant documents from a corpus based on the input query, then utilizes a generation component to produce the final answer. This integration allows RAG models to leverage pre-existing knowledge effectively, resulting in accurate and informative responses across a wide range of queries. By combining the strengths of both retrieval and generation techniques, RAG models offer improved performance and flexibility for tasks such as question answering.
+It used the RAG (Retrieval-Augmented Generation) model which blends retrieval-based and generation-based approaches in natural language processing. It employs a retrieval component to identify relevant documents from a corpus based on the input query, then utilizes a generation component to produce the final answer. This integration allows RAG models to leverage pre-existing knowledge effectively, resulting in accurate and informative responses across a wide range of queries. 
 
 The app integrates several technical components:
 
@@ -22,7 +22,7 @@ The app integrates several technical components:
    - Embeddings from Hugging Face models are used for text representations.
    - A retrieval-based question-answering (QA) system is implemented for responding to user queries, possibly involving multiple documents.
 
-Overall, the app provides a user-friendly interface for interacting with a sophisticated language model, capable of answering queries based on the scraped content, especially tailored for Deloitte-related topics.
+Overall, the app provides a user-friendly interface for interacting with a sophisticated language model, capable of answering queries based on the scraped content and is branded for a Deloitte use-case. 
 
 ## How to Run in Google Collab 
 

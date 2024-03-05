@@ -26,7 +26,7 @@ Overall, the app provides a user-friendly interface for interacting with a sophi
 
 ## How to Run in Google Collab 
 
-The notebook "streamlit_via_collab" allows for a Streamlit app running on port 8501 in the background, then use localtunnel to expose it to the internet. Upload the app.py file and Deloitte logo and run the command.
+The notebook "streamlit_via_collab" allows for a Streamlit app running on port 8501 in the background, then use localtunnel to expose it to the internet. Upload the app.py file and Deloitte logo and run the command:
 
 ```streamlit run app.py & npx localtunnel --port 8501```
 
